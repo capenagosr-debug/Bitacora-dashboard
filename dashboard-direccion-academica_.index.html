@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora Dirección Académica — Sede Bogotá</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy-900:#0E2E48; --navy-800:#133C5C; --navy-700:#1A4B72;
+  --paper:#F5F7FA; --paper-raised:#FFFFFF; --line:#DCE3EA;
+  --ink:#152435; --ink-soft:#5B6B7C;
+  --teal:#4FBEB2; --orange:#F0A430;
+  --a1:#159C82; --a2:#F0A430; --a3:#3B93D6; --a4:#6A4CA8; --a5:#CE4BBE; --nt:#4A4397;
+  --g-ok:#1E9E6B; --g-warn:#E0A02E; --g-bad:#D2483F; --g-mute:#AEB9C4;
+  --radius-s:6px; --radius-m:10px; --radius-l:14px;
+  --shadow-1:0 1px 2px rgba(14,46,72,.06), 0 1px 1px rgba(14,46,72,.04);
+  --font-head:'Space Grotesk', sans-serif; --font-body:'Inter', sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:var(--font-body);background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.42;}
+h1,h2,h3,h4{font-family:var(--font-head);margin:0;color:var(--navy-900);}
+p{margin:0;} button{font-family:inherit;} ::selection{background:var(--teal);color:#fff;} a{color:var(--navy-700);}
+.wrap{max-width:1420px;margin:0 auto;padding:0 22px;}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important;}}
+
+/* HEADER */
+.masthead{position:relative;background:var(--navy-900);color:#fff;overflow:hidden;}
+.masthead-inner{max-width:1420px;margin:0 auto;padding:18px 22px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;z-index:2;}
+.brand{display:flex;align-items:center;gap:14px;}
+.brand-mark{width:42px;height:42px;border-radius:11px;background:linear-gradient(150deg,var(--teal),var(--a3));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:700;font-size:16px;color:#08222f;flex:none;}
+.brand-text h1{font-size:19px;color:#fff;font-weight:600;letter-spacing:.2px;}
+.brand-text p{font-size:11.5px;color:#B9C9D8;margin-top:2px;letter-spacing:.5px;}
+.org-pill{background:#fff;color:var(--navy-900);padding:8px 16px;border-radius:999px;font-family:var(--font-head);font-weight:700;font-size:14px;box-shadow:var(--shadow-1);flex:none;}
+.masthead-stripe{height:4px;display:flex;}
+.masthead-stripe span{flex:1;}
+.masthead-stripe .s1{background:var(--teal);} .masthead-stripe .s2{background:var(--orange);}
+.masthead::after{content:"";position:absolute;right:-6%;top:-40%;width:460px;height:460px;background:radial-gradient(circle at center, rgba(79,190,178,.16), transparent 70%);z-index:1;}
+
+/* STATUSBAR */
+.statusbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:9px 0 0;position:relative;z-index:3;}
+.statusbar .card{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 14px;width:100%;}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--g-mute);flex:none;transition:background .2s;}
+.dot.ok{background:var(--g-ok);} .dot.err{background:var(--g-bad);}
+.dot.loading{background:var(--orange);animation:pulse 1.1s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.status-text{font-size:12px;color:var(--ink-soft);}
+.status-text b{color:var(--ink);font-weight:600;}
+.spacer{flex:1;}
+.refresh-control{display:flex;align-items:center;gap:7px;}
+.refresh-control label{font-size:12px;color:var(--ink-soft);}
+select,.btn{font-family:var(--font-body);font-size:12.5px;border:1px solid var(--line);border-radius:var(--radius-s);padding:6px 9px;background:#fff;color:var(--ink);cursor:pointer;}
+select:focus,.btn:focus,button:focus,input:focus{outline:2px solid var(--a3);outline-offset:1px;}
+.btn{display:inline-flex;align-items:center;gap:6px;font-weight:600;}
+.btn:hover{border-color:var(--navy-700);}
+.btn.primary{background:var(--navy-900);border-color:var(--navy-900);color:#fff;}
+.btn.primary:hover{background:var(--navy-700);}
+.btn.icon{padding:6px 8px;}
+.btn.small{font-size:11.5px;padding:4px 8px;}
+.source-toggle{background:none;border:none;color:var(--navy-700);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0;}
+.source-panel{display:none;width:100%;gap:8px;align-items:center;flex-wrap:wrap;padding-top:9px;margin-top:9px;border-top:1px solid var(--line);}
+.source-panel.open{display:flex;}
+.source-panel input{flex:1;min-width:260px;border:1px solid var(--line);border-radius:var(--radius-s);padding:7px 11px;font-size:12px;font-family:var(--font-body);}
+.source-hint{font-size:11px;color:var(--ink-soft);width:100%;}
+.source-error{font-size:11px;color:var(--g-bad);width:100%;display:none;}
+
+/* CARD BASE */
+.card{background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius-l);box-shadow:var(--shadow-1);}
+
+/* MODULES */
+main{padding:18px 0 50px;}
+.module{margin-top:22px;}
+.module-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:10px;flex-wrap:wrap;}
+.module-head h2{font-size:18px;}
+.module-head .module-sub{font-size:12px;color:var(--ink-soft);margin-top:1px;}
+.module-head .hint{font-size:11.5px;color:var(--ink-soft);}
+.module-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;min-width:0;}
+
+/* FILTER BAR (dropdowns) */
+.mini-filterbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-end;padding:12px 14px;border-bottom:1px solid var(--line);}
+.mfg{display:flex;flex-direction:column;gap:5px;}
+.mfg label{font-size:10.5px;font-weight:600;color:var(--ink-soft);}
+.mfg select,.mfg input{font-size:12.5px;padding:7px 9px;border:1px solid var(--line);border-radius:var(--radius-s);min-width:168px;background:#fff;}
+.mfg.grow{flex:1;min-width:190px;}
+.filter-clear{margin-left:auto;align-self:center;}
+.result-count{font-size:11.5px;color:var(--ink-soft);}
+.result-count b{color:var(--ink);}
+
+/* active filters bar */
+.active-filters-bar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:9px 14px;background:#EAF6F4;border-bottom:1px solid var(--line);}
+.active-filters-bar.empty{display:none;}
+.af-label{font-size:11px;color:var(--navy-700);font-weight:700;margin-right:2px;}
+.af-chip{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.5px solid var(--teal);color:var(--navy-900);border-radius:999px;padding:4px 5px 4px 11px;font-size:11.5px;font-weight:600;max-width:280px;}
+.af-chip .af-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px;}
+.af-chip button{background:var(--teal);border:none;cursor:pointer;color:#fff;font-size:12px;line-height:1;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;}
+.af-chip button:hover{background:var(--g-bad);}
+.af-clearall{margin-left:auto;}
+
+/* selected row highlight */
+tr.row-selected{background:#EAF6F4 !important;}
+tr.row-selected td:first-child{box-shadow:inset 3px 0 0 var(--teal);}
+
+/* KPI mini strip */
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+.kpi-mini{padding:11px 13px;position:relative;overflow:hidden;}
+.kpi-mini::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);}
+.kpi-mini.alert::before{background:var(--g-bad);}
+.kpi-mini .kl{font-size:10.5px;color:var(--ink-soft);font-weight:600;}
+.kpi-mini .kv{font-family:var(--font-head);font-size:23px;font-weight:700;color:var(--navy-900);margin-top:3px;line-height:1;}
+.kpi-mini .ks{font-size:10.5px;color:var(--ink-soft);margin-top:4px;}
+
+/* Quad panel row (module 1) */
+.quad-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr .85fr;gap:12px;align-items:stretch;}
+.panel{padding:13px 14px;display:flex;flex-direction:column;min-width:0;}
+.panel h3{font-size:12px;margin-bottom:8px;color:var(--navy-900);}
+
+/* Big area cards */
+.area-grid-big{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px;flex:1;}
+.area-card-big{border-radius:9px;padding:12px 13px;color:#fff;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:10px;min-height:76px;border:2px solid transparent;transition:transform .1s,border-color .1s;}
+.area-card-big:hover{transform:translateY(-1px);}
+.area-card-big.active{border-color:#fff;box-shadow:0 0 0 3px var(--navy-900), 0 0 0 5px var(--teal);}
+.area-card-big .nm{font-size:11.5px;font-weight:600;line-height:1.25;}
+.area-card-big .cnt{font-family:var(--font-head);font-size:22px;font-weight:700;}
+.area-card-big .cnt span{font-size:10px;font-weight:500;opacity:.85;margin-left:3px;font-family:var(--font-body);}
+
+.donut-holder{position:relative;height:150px;margin-top:6px;}
+.hbar-list-sm{display:flex;flex-direction:column;gap:7px;overflow-y:auto;max-height:220px;padding-right:2px;}
+.hbar-item{display:grid;grid-template-columns:1fr auto;gap:6px;font-size:11.5px;cursor:pointer;padding:3px 4px;border-radius:5px;}
+.hbar-item:hover{background:#F7FAFC;}
+.hbar-item.active{background:#DBF0EC;box-shadow:inset 3px 0 0 var(--teal);}
+.hbar-item .lbl{color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hbar-track{grid-column:1/-1;background:#EEF2F6;border-radius:4px;height:6px;overflow:hidden;}
+.hbar-fill{height:100%;border-radius:4px;background:var(--teal);}
+.hbar-val{font-weight:600;color:var(--ink);font-size:11px;}
+.leader-list-sm{display:flex;flex-direction:column;overflow-y:auto;max-height:236px;}
+.leader-row-sm{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 4px;border-bottom:1px solid var(--line);cursor:pointer;font-size:11.5px;}
+.leader-row-sm:last-child{border-bottom:none;}
+.leader-row-sm:hover{background:#F7FAFC;}
+.leader-row-sm.active{background:#DBF0EC;box-shadow:inset 3px 0 0 var(--teal);}
+.leader-row-sm .ln{font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px;}
+.leader-row-sm .lc{color:var(--ink-soft);font-size:11px;white-space:nowrap;}
+.legend-sm{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:6px;justify-content:center;}
+.legend-sm .li{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--ink-soft);cursor:pointer;padding:2px 6px;border-radius:999px;}
+.legend-sm .li .sw{width:8px;height:8px;border-radius:2px;}
+.legend-sm .li.dim{opacity:.4;}
+.legend-sm .li.selected{background:#DBF0EC;font-weight:700;color:var(--ink);}
+.click-filter.selected{background:#DBF0EC;border-radius:4px;padding:1px 4px;}
+
+/* tables */
+.ptable-wrap{overflow:auto;max-height:380px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{position:sticky;top:0;background:var(--navy-900);color:#fff;text-align:left;padding:8px 10px;font-weight:600;font-size:11.3px;white-space:nowrap;z-index:2;}
+tbody td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+tbody tr:hover{background:#F7FAFC;}
+.area-tag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;flex:none;}
+.area-tag .sw{width:7px;height:7px;border-radius:50%;flex:none;}
+.p-name{font-weight:600;color:var(--ink);cursor:help;border-bottom:1px dotted var(--ink-soft);display:inline-block;}
+.pill{display:inline-block;background:#EEF2F6;color:var(--ink-soft);border-radius:5px;padding:2px 7px;font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;}
+.txt-trunc{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle;color:var(--ink-soft);font-size:12px;}
+.sem-dot{display:inline-block;width:9px;height:9px;border-radius:50%;}
+.sem-1{background:var(--g-ok);} .sem-2{background:var(--g-warn);} .sem-3{background:var(--g-bad);} .sem-0{background:var(--g-mute);}
+.mono-num{font-variant-numeric:tabular-nums;font-weight:600;}
+
+/* module 2 chart row */
+.chart-row-2{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;}
+.chart-card-sm{padding:13px 14px;}
+.chart-card-sm h3{font-size:12px;margin-bottom:6px;}
+.chart-holder-sm{position:relative;height:190px;}
+
+/* pivot table */
+.pivot-wrap{overflow:auto;max-height:560px;}
+.pivot-wrap table{font-size:12.5px;}
+.pivot-wrap thead th{font-size:10.6px;}
+.cell-num{text-align:right;font-variant-numeric:tabular-nums;cursor:help;}
+.cell-hito{cursor:help;color:var(--ink-soft);font-size:11px;text-align:center;}
+.cell-empty{color:#C6CFD8;text-align:center;}
+.total-cell{font-weight:700;color:var(--navy-900);text-align:right;}
+
+/* gap panels: nunca deben desbordar la tarjeta */
+.gap-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0;}
+.gap-list{max-height:170px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:2px;min-width:0;}
+.gap-row{display:flex;align-items:flex-start;gap:8px;padding:6px 4px;border-bottom:1px dashed var(--line);font-size:12px;min-width:0;}
+.gap-row:last-child{border-bottom:none;}
+.gap-row .gn{font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1 1 auto;}
+.gap-row .gs{color:var(--ink-soft);font-size:11px;margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:38%;flex:0 1 auto;}
+
+/* alerts */
+.alert-card{border-left:4px solid var(--g-bad);padding:11px 14px;border-radius:var(--radius-s);background:#FDF4F3;margin-bottom:8px;}
+.alert-card:last-child{margin-bottom:0;}
+.alert-top{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;color:var(--ink-soft);margin-bottom:4px;}
+.alert-top b{color:var(--ink);}
+.alert-text{font-size:12.5px;color:var(--ink);}
+.alert-action{font-size:11px;color:var(--ink-soft);margin-top:5px;}
+.empty-state{padding:22px;text-align:center;color:var(--ink-soft);font-size:12.5px;}
+
+/* global tooltip */
+.global-tooltip{position:fixed;z-index:999;max-width:320px;background:var(--navy-900);color:#fff;font-size:11.8px;line-height:1.4;padding:9px 11px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.25);pointer-events:none;display:none;}
+.global-tooltip b{display:block;font-size:10.5px;color:var(--teal);margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+.global-tooltip .row{margin-top:5px;}
+
+footer{padding:20px 0 34px;text-align:center;font-size:11px;color:var(--ink-soft);}
+
+@media (max-width:1180px){
+  .quad-grid{grid-template-columns:1fr 1fr;}
+  .kpi-row{grid-template-columns:repeat(3,1fr);}
+  .chart-row-2{grid-template-columns:1fr;}
+  .gap-grid{grid-template-columns:1fr;}
+}
+@media (max-width:720px){
+  .masthead-inner{flex-direction:column;align-items:flex-start;gap:10px;}
+  .kpi-row{grid-template-columns:repeat(2,1fr);}
+  .quad-grid{grid-template-columns:1fr;}
+  .area-grid-big{grid-template-columns:1fr 1fr;}
+  table{font-size:12px;}
+}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">
+      <div class="brand-mark">DA</div>
+      <div class="brand-text">
+        <h1>Dirección Académica</h1>
+        <p>SEGUIMIENTO DE PROGRAMAS · SEDE BOGOTÁ</p>
+      </div>
+    </div>
+    <div class="org-pill">UNAL</div>
+  </div>
+  <div class="masthead-stripe"><span class="s1"></span><span class="s2"></span></div>
+</header>
+
+<div class="wrap">
+  <div class="statusbar">
+    <div class="card">
+      <span class="dot loading" id="connDot"></span>
+      <span class="status-text" id="connText">Conectando con Google Sheets…</span>
+      <span class="spacer"></span>
+      <span class="status-text" id="lastUpdated"></span>
+      <div class="refresh-control">
+        <label for="refreshSelect">Actualizar</label>
+        <select id="refreshSelect">
+          <option value="0">Manual</option>
+          <option value="15000">Inmediato (15 s)</option>
+          <option value="60000">Cada 1 min</option>
+          <option value="300000">Cada 5 min</option>
+          <option value="900000">Cada 15 min</option>
+          <option value="1800000">Cada 30 min</option>
+          <option value="3600000">Cada 1 hora</option>
+          <option value="86400000" selected>Cada 24 horas (por defecto)</option>
+        </select>
+      </div>
+      <button class="btn icon" id="btnRefreshNow" title="Actualizar ahora" aria-label="Actualizar ahora">⟳</button>
+      <button class="source-toggle" id="btnToggleSource" type="button">Cambiar fuente de datos</button>
+      <div class="source-panel" id="sourcePanel">
+        <span class="source-hint">Pega la URL de tu Apps Script (debe terminar en <code>/exec</code>):</span>
+        <input type="url" id="sourceInput" placeholder="https://script.google.com/macros/s/AKfycb.../exec">
+        <button class="btn primary" id="btnSaveSource">Guardar y conectar</button>
+        <button class="btn" id="btnResetSource">Restaurar link por defecto</button>
+        <span class="source-error" id="sourceError">La URL debe empezar por https://script.google.com/macros/ y terminar en /exec</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="app" aria-busy="true">
+
+  <!-- ============ MODULE 1: PANORAMA POR ÁREA FUNCIONAL ============ -->
+  <section class="module">
+    <div class="module-head">
+      <div>
+        <h2>Panorama por área funcional</h2>
+        <div class="module-sub">Fuente: 1_MAESTRO_PROGRAMAS · filtros en cascada, y clics aquí solo afectan este módulo</div>
+      </div>
+      <span class="hint" id="m1ResultCount"></span>
+    </div>
+
+    <div class="card">
+      <div class="mini-filterbar">
+        <div class="mfg">
+          <label>Área funcional</label>
+          <select id="m1-area"><option value="">Todas</option></select>
+        </div>
+        <div class="mfg">
+          <label>Estado actual</label>
+          <select id="m1-estado"><option value="">Todos</option></select>
+        </div>
+        <div class="mfg">
+          <label>Fuente de financiación</label>
+          <select id="m1-fuente"><option value="">Todas</option></select>
+        </div>
+        <div class="mfg">
+          <label>Líder responsable</label>
+          <select id="m1-lider"><option value="">Todos</option></select>
+        </div>
+        <div class="mfg grow">
+          <label>Buscar programa / convenio</label>
+          <input type="search" id="m1-search" placeholder="Escribe para buscar…">
+        </div>
+        <button class="btn small filter-clear" id="m1-clear">Limpiar todos los filtros</button>
+      </div>
+      <div class="active-filters-bar empty" id="m1ActiveFilters"></div>
+
+      <div class="module-body">
+        <div class="kpi-row" id="m1KpiRow"></div>
+
+        <div class="quad-grid">
+          <div class="panel">
+            <h3>Programas únicos por área</h3>
+            <div class="area-grid-big" id="m1AreaGrid"></div>
+          </div>
+          <div class="panel">
+            <h3>Fuente de financiación</h3>
+            <div class="hbar-list-sm" id="m1FinanceList"></div>
+          </div>
+          <div class="panel">
+            <h3>Líderes responsables (todos)</h3>
+            <div class="leader-list-sm" id="m1LeaderList"></div>
+          </div>
+          <div class="panel">
+            <h3>Semáforo al empalme <span class="hint" style="font-weight:400;">(clic filtra)</span></h3>
+            <div class="donut-holder"><canvas id="m1SemDonut"></canvas></div>
+            <div class="legend-sm" id="m1SemLegend"></div>
+          </div>
+        </div>
+
+        <div class="ptable-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Área</th><th>Programa</th><th>Líder</th><th>Estado actual</th>
+                <th>Estado al empalme</th><th>Financiación / Convenio</th><th>Semáforo</th>
+              </tr>
+            </thead>
+            <tbody id="m1TableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODULE 2: AVANCE DE PROGRAMAS E INDICADORES ============ -->
+  <section class="module">
+    <div class="module-head">
+      <div>
+        <h2>Avance de Programas e Indicadores</h2>
+        <div class="module-sub">Fuente: 2_INDICADORES_RESULTADO (listado) + 3_BITACORA_MENSUAL_V2 (períodos y valores) · filtros en cascada, y clics aquí solo afectan este módulo</div>
+      </div>
+      <span class="hint" id="m2ResultCount"></span>
+    </div>
+
+    <div class="card">
+      <div class="mini-filterbar">
+        <div class="mfg">
+          <label>Área funcional</label>
+          <select id="m2-area"><option value="">Todas</option></select>
+        </div>
+        <div class="mfg">
+          <label>Unidad de medida</label>
+          <select id="m2-unidad"><option value="">Todas</option></select>
+        </div>
+        <div class="mfg">
+          <label>Semáforo / alerta</label>
+          <select id="m2-sem">
+            <option value="">Todos</option>
+            <option value="1">1 — En curso normal</option>
+            <option value="2">2 — Requiere atención</option>
+            <option value="3">3 — Crítico</option>
+            <option value="alerta">Solo con alerta activa</option>
+          </select>
+        </div>
+        <div class="mfg">
+          <label>Líder responsable</label>
+          <select id="m2-lider"><option value="">Todos</option></select>
+        </div>
+        <div class="mfg">
+          <label>Programa</label>
+          <select id="m2-programa"><option value="">Todos</option></select>
+        </div>
+        <div class="mfg">
+          <label>Indicador</label>
+          <select id="m2-indicador"><option value="">Todos</option></select>
+        </div>
+        <div class="mfg">
+          <label>Fecha de registro (período)</label>
+          <select id="m2-periodo"><option value="">Todos (estado actual)</option></select>
+        </div>
+        <div class="mfg grow">
+          <label>Buscar</label>
+          <input type="search" id="m2-search" placeholder="Programa, indicador o líder…">
+        </div>
+        <button class="btn small filter-clear" id="m2-clear">Limpiar todos los filtros</button>
+      </div>
+      <div class="active-filters-bar empty" id="m2ActiveFilters"></div>
+
+      <div class="module-body">
+        <div class="kpi-row" id="m2KpiRow"></div>
+
+        <div class="chart-row-2">
+          <div class="card chart-card-sm">
+            <h3 id="m2SemTitle">Semáforo — estado actual</h3>
+            <div class="chart-holder-sm"><canvas id="m2SemDonut"></canvas></div>
+          </div>
+          <div class="card chart-card-sm">
+            <h3 id="m2TimelineTitle">Registros de bitácora por período <span class="hint" style="font-weight:400;">(clic filtra · elige un indicador para ver su tendencia)</span></h3>
+            <div class="chart-holder-sm" id="m2TimelineHolder"><canvas id="m2Timeline"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:0;">
+          <div class="mini-filterbar" style="border-bottom:1px solid var(--line);padding:10px 14px;">
+            <span class="result-count" id="m2TableCount"></span>
+            <span class="hint" style="margin-left:auto;">Pasa el mouse sobre un valor de período para ver el comentario registrado</span>
+          </div>
+          <div class="pivot-wrap">
+            <table id="pivotTable">
+              <thead><tr id="pivotHeadRow"></tr></thead>
+              <tbody id="pivotBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="gap-grid">
+          <div class="card" style="padding:14px;min-width:0;">
+            <h3 style="font-size:12.5px;margin-bottom:4px;">Programas sin indicadores asignados</h3>
+            <div class="hint" style="margin-bottom:8px;">Vista completa, no filtrada</div>
+            <div class="gap-list" id="gapNoIndicators"></div>
+          </div>
+          <div class="card" style="padding:14px;min-width:0;">
+            <h3 style="font-size:12.5px;margin-bottom:4px;">Indicadores sin reportes después del empalme</h3>
+            <div class="hint" style="margin-bottom:8px;">Vista completa, no filtrada</div>
+            <div class="gap-list" id="gapNoReports"></div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:14px;">
+          <h3 style="font-size:12.5px;margin-bottom:8px;" id="alertsTitle">Alertas activas</h3>
+          <div id="alertsPanel"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Bitácora de Seguimiento — Dirección Académica, Sede Bogotá · Datos conectados en vivo desde Google Sheets
+</footer>
+
+<div class="global-tooltip" id="globalTooltip"></div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const DEFAULT_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWrvjyeIKZ-avIQz0xUHKHY8GCF7cszCzs57Wph5fapV5DFaSW8Jcjmd5_DaayEigB/exec";
+const STORAGE_KEY = "da_dashboard_apps_script_url";
+const SHEET_MAESTRO = "1_MAESTRO_PROGRAMAS";
+const SHEET_INDICADORES = "2_INDICADORES_RESULTADO";
+const SHEET_BITACORA = "3_BITACORA_MENSUAL_V2";
+
+const AREA_COLORS = { "A1":"#159C82","A2":"#F0A430","A3":"#3B93D6","A4":"#6A4CA8","A5":"#CE4BBE","NT":"#4A4397" };
+const AREA_ORDER = ["A1","A2","A3","A4","A5","NT"];
+const SEM_COLORS = {1:"#1E9E6B", 2:"#E0A02E", 3:"#D2483F", 0:"#AEB9C4"};
+const SEM_LABELS = {1:"En curso normal", 2:"Requiere atención", 3:"Crítico", 0:"Sin dato"};
+
+let state = {
+  raw:null, programs:[], indicators:[], logs:[],
+  progByName:{}, periodByKey:{},
+  f1:{ area:"", estado:"", fuente:"", lider:"", search:"", sem:new Set() },
+  f2:{ area:"", unidad:"", sem:"", lider:"", periodo:"", programa:"", indicador:"", search:"" },
+  refreshTimer:null, charts:{}
+};
+
+/* ============================================================
+   UTIL
+   ============================================================ */
+function normKey(k){ return String(k).replace(/\n/g," ").replace(/\s+/g," ").trim(); }
+function normalizeRow(row){ const out={}; Object.keys(row).forEach(k => out[normKey(k)] = row[k]); return out; }
+function cleanStr(v){ if (v===null||v===undefined) return ""; return String(v).trim(); }
+function normKeyName(s){ return cleanStr(s).toLowerCase().replace(/\s+/g," "); }
+function areaCode(areaFull){ const m = cleanStr(areaFull).match(/^(A[1-5]|NT)\b/); return m ? m[1] : null; }
+function areaLabel(areaFull){ const parts = cleanStr(areaFull).split("—"); return parts.length>1 ? parts[1].trim() : cleanStr(areaFull); }
+function fmtNum(n){ if (n===null||n===undefined||isNaN(n)) return "—"; return new Intl.NumberFormat("es-CO",{maximumFractionDigits:1}).format(n); }
+function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function isPercentUnit(u){ return /porcentaje/i.test(u||""); }
+function formatValueForUnit(num, unidad){ if (num===null||num===undefined||isNaN(num)) return "—"; return fmtNum(num) + (isPercentUnit(unidad)?"%":""); }
+function uniqueSorted(arr){ return [...new Set(arr)].sort((a,b)=>a.localeCompare(b,"es")); }
+
+/* Llave canónica de período: independiente del formato original de texto/fecha,
+   así dos representaciones distintas del mismo día calendario no se separan. */
+function parsePeriodo(raw){
+  const s = cleanStr(raw); if (!s) return null;
+  const isEmpalme = /empalme/i.test(s);
+  let dd, mm, yyyy;
+  let m = s.match(/(\d{4})-(\d{1,2})-(\d{1,2})/); // yyyy-mm-dd (fechas reales formateadas por Apps Script)
+  if (m){ yyyy = m[1]; mm = m[2]; dd = m[3]; }
+  else {
+    m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/); // dd/mm/yyyy (texto, ej. la fila de empalme)
+    if (!m) return null;
+    dd = m[1]; mm = m[2]; yyyy = m[3];
+  }
+  dd = dd.padStart(2,"0"); mm = mm.padStart(2,"0");
+  if (yyyy === "2027") yyyy = "2026"; // corrige typo de captura
+  const date = new Date(`${yyyy}-${mm}-${dd}T00:00:00`);
+  const key = (isEmpalme?"EMP-":"D-") + `${yyyy}-${mm}-${dd}`;
+  return { raw:s, date, isEmpalme, key, label: isEmpalme ? `${dd}/${mm}/${yyyy} (Empalme)` : `${dd}/${mm}/${yyyy}` };
+}
+
+function parseValueForUnit(raw, unidad){
+  const s = cleanStr(raw); if (s === "") return null;
+  const percentUnit = isPercentUnit(unidad);
+  const hasPercentSign = s.includes("%");
+  let core = s.replace(/%/g,"").trim();
+  if (core.includes(",")) core = core.replace(/\./g,"").replace(",", ".");
+  let n = parseFloat(core);
+  if (isNaN(n)) return null;
+  if (percentUnit && !hasPercentSign && Math.abs(n) <= 2) n = n * 100;
+  return n;
+}
+
+/* ============================================================
+   GLOBAL TOOLTIP
+   ============================================================ */
+const tipEl = document.getElementById("globalTooltip");
+function showTip(html, evt){ tipEl.innerHTML = html; tipEl.style.display = "block"; positionTip(evt); }
+function positionTip(evt){
+  const pad = 14; let x = evt.clientX + pad, y = evt.clientY + pad;
+  const rect = tipEl.getBoundingClientRect();
+  if (x + rect.width > window.innerWidth - 10) x = evt.clientX - rect.width - pad;
+  if (y + rect.height > window.innerHeight - 10) y = evt.clientY - rect.height - pad;
+  tipEl.style.left = x + "px"; tipEl.style.top = y + "px";
+}
+function hideTip(){ tipEl.style.display = "none"; }
+function wireTooltip(el, htmlFn){
+  el.addEventListener("mouseenter", (e) => showTip(htmlFn(), e));
+  el.addEventListener("mousemove", positionTip);
+  el.addEventListener("mouseleave", hideTip);
+}
+
+/* ============================================================
+   FETCH + BUILD MODEL
+   ============================================================ */
+function getApiUrl(){ try{ return localStorage.getItem(STORAGE_KEY) || DEFAULT_APPS_SCRIPT_URL; }catch(e){ return DEFAULT_APPS_SCRIPT_URL; } }
+function setApiUrl(url){ try{ localStorage.setItem(STORAGE_KEY, url); }catch(e){} }
+function clearApiUrl(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function isValidAppsScriptUrl(url){ return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(url.trim()); }
+
+async function fetchData(){
+  setConn("loading", "Actualizando datos…");
+  try{
+    const res = await fetch(getApiUrl(), { cache:"no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const json = await res.json();
+    state.raw = json;
+    buildModel(json);
+    setConn("ok", "Conectado");
+    document.getElementById("lastUpdated").textContent = "Última actualización: " + new Date().toLocaleTimeString("es-CO");
+    renderAll();
+  }catch(err){
+    console.error(err);
+    setConn("err", "No se pudo conectar: " + err.message);
+  }
+}
+function setConn(kind, text){
+  document.getElementById("connDot").className = "dot " + kind;
+  document.getElementById("connText").textContent = text;
+}
+
+function dedupeByKey(list, keyFn){
+  const seen = new Set(); const out = [];
+  list.forEach(item => { const k = keyFn(item); if (!seen.has(k)){ seen.add(k); out.push(item); } });
+  return out;
+}
+
+function buildModel(json){
+  const maestroRaw = (json[SHEET_MAESTRO]||[]).map(normalizeRow);
+  const indicRaw = (json[SHEET_INDICADORES]||[]).map(normalizeRow);
+  const bitRaw = (json[SHEET_BITACORA]||[]).map(normalizeRow);
+
+  let programs = maestroRaw.filter(r => cleanStr(r["Programa"])!=="").map(r => ({
+    area: cleanStr(r["Área Funcional"]), areaCode: areaCode(r["Área Funcional"]),
+    programa: cleanStr(r["Programa"]), tipo: cleanStr(r["Tipo"]), lider: cleanStr(r["Líder responsable"]),
+    fInicio: cleanStr(r["F. Inicio operación"]), estado: cleanStr(r["Estado actual"])||"Sin estado",
+    fuente: cleanStr(r["Fuente financiación"])||"Sin fuente Rec.", convenio: cleanStr(r["Convenio / Proyecto"]),
+    poblacion: cleanStr(r["Población objetivo"])||"No especificada", descripcion: cleanStr(r["Descripción breve"]),
+    estadoEmpalme: cleanStr(r["Estado al empalme (20/02/2026)"]), semEmpalme: parseValueForUnit(r["Semáforo empalme (1-2-3)"], ""),
+    observaciones: cleanStr(r["Observaciones"])
+  }));
+  state.programs = dedupeByKey(programs, p => normKeyName(p.programa));
+  state.progByName = {}; state.programs.forEach(p => state.progByName[normKeyName(p.programa)] = p);
+
+  let indicators = indicRaw.filter(r => cleanStr(r["Programa"])!=="" && cleanStr(r["Indicador"])!=="").map(r => {
+    const unidad = cleanStr(r["Unidad de medida"])||"Número";
+    return {
+      area: cleanStr(r["Área"]), areaCode: areaCode(r["Área"]), programa: cleanStr(r["Programa"]),
+      lider: cleanStr(r["Líder responsable"]), indicador: cleanStr(r["Indicador"]),
+      unidad, metaAnualNum: parseValueForUnit(r["Meta anual"], unidad)
+    };
+  });
+  state.indicators = dedupeByKey(indicators, i => normKeyName(i.programa)+"|||"+normKeyName(i.indicador));
+
+  state.logs = bitRaw.filter(r => cleanStr(r["Programa"])!=="" && cleanStr(r["Indicador"])!=="").map(r => {
+    const per = parsePeriodo(r["Período (Mensual)"]);
+    const unidad = cleanStr(r["Unidad de medida"])||"Número";
+    return {
+      periodo: per, area: cleanStr(r["Área Funcional"]), areaCode: areaCode(r["Área Funcional"]),
+      lider: cleanStr(r["Líder responsable"]), programa: cleanStr(r["Programa"]), indicador: cleanStr(r["Indicador"]),
+      unidad, valorNum: parseValueForUnit(r["Valor reportado periodo"], unidad),
+      comentarios: cleanStr(r["Descripción o comentarios"]),
+      semaforo: parseValueForUnit(r["Semáforo (1-2-3)"], ""), alerta: cleanStr(r["¿Alerta?"]),
+      descAlerta: cleanStr(r["Descripción de alerta / novedad crítica"]), accion: cleanStr(r["Acción requerida (responsable + plazo)"])
+    };
+  }).filter(l => l.periodo !== null);
+
+  state.periodByKey = {};
+  state.logs.forEach(l => { if (!state.periodByKey[l.periodo.key]) state.periodByKey[l.periodo.key] = l.periodo; });
+
+  wireStaticFilterControls();
+}
+
+function periodLabelByKey(key){ const p = state.periodByKey[key]; return p ? p.label : key; }
+
+/* ============================================================
+   FILTER SELECT HELPER
+   ============================================================ */
+function fillSelect(id, values, onChange, currentVal){
+  const sel = document.getElementById(id);
+  const first = sel.options[0];
+  sel.innerHTML = "";
+  sel.appendChild(first);
+  values.forEach(v => {
+    const o = document.createElement("option");
+    o.value = v.value; o.textContent = v.label;
+    sel.appendChild(o);
+  });
+  sel.value = (currentVal && [...sel.options].some(o=>o.value===currentVal)) ? currentVal : "";
+  sel.onchange = e => onChange(e.target.value);
+}
+
+/* Controles que solo necesitan conectarse una vez (no dependen de cascada) */
+function wireStaticFilterControls(){
+  document.getElementById("m1-search").oninput = debounce(e=>{ state.f1.search = e.target.value.toLowerCase().trim(); renderModule1(); }, 200);
+  document.getElementById("m1-clear").onclick = ()=>{
+    state.f1 = { area:"", estado:"", fuente:"", lider:"", search:"", sem:new Set() };
+    document.getElementById("m1-search").value="";
+    renderModule1();
+  };
+  document.getElementById("m2-sem").onchange = e => { state.f2.sem = e.target.value; renderModule2(); };
+  document.getElementById("m2-sem").value = state.f2.sem;
+  document.getElementById("m2-search").oninput = debounce(e=>{ state.f2.search = e.target.value.toLowerCase().trim(); renderModule2(); }, 200);
+  document.getElementById("m2-clear").onclick = ()=>{
+    state.f2 = { area:"", unidad:"", sem:"", lider:"", periodo:"", programa:"", indicador:"", search:"" };
+    document.getElementById("m2-search").value="";
+    document.getElementById("m2-sem").value="";
+    renderModule2();
+  };
+}
+
+/* ============================================================
+   CASCADING FILTER OPTIONS — MÓDULO 1
+   Cada desplegable muestra solo opciones compatibles con los DEMÁS filtros activos.
+   ============================================================ */
+function m1FilteredExcept(exceptKey){
+  const f = state.f1;
+  return state.programs.filter(p => {
+    if (exceptKey!=="area" && f.area && p.areaCode !== f.area) return false;
+    if (exceptKey!=="estado" && f.estado && p.estado !== f.estado) return false;
+    if (exceptKey!=="fuente" && f.fuente && p.fuente !== f.fuente) return false;
+    if (exceptKey!=="lider" && f.lider && p.lider !== f.lider) return false;
+    if (f.sem.size && !f.sem.has(String(p.semEmpalme))) return false;
+    if (f.search){ const hay=(p.programa+" "+p.convenio+" "+p.lider).toLowerCase(); if(!hay.includes(f.search)) return false; }
+    return true;
+  });
+}
+
+function refreshCascadingFiltersM1(){
+  const areaItems = uniqueSorted(m1FilteredExcept("area").map(p=>p.areaCode).filter(Boolean))
+    .map(code => ({ value:code, label:`${code} — ${areaLabel(state.programs.find(p=>p.areaCode===code).area)}` }));
+  fillSelect("m1-area", areaItems, v=>{ state.f1.area=v; renderModule1(); }, state.f1.area);
+
+  fillSelect("m1-estado", uniqueSorted(m1FilteredExcept("estado").map(p=>p.estado)).map(e=>({value:e,label:e})),
+    v=>{ state.f1.estado=v; renderModule1(); }, state.f1.estado);
+
+  fillSelect("m1-fuente", uniqueSorted(m1FilteredExcept("fuente").map(p=>p.fuente)).map(f=>({value:f,label:f})),
+    v=>{ state.f1.fuente=v; renderModule1(); }, state.f1.fuente);
+
+  fillSelect("m1-lider", uniqueSorted(m1FilteredExcept("lider").map(p=>p.lider).filter(Boolean)).map(l=>({value:l,label:l})),
+    v=>{ state.f1.lider=v; renderModule1(); }, state.f1.lider);
+}
+
+/* ============================================================
+   CASCADING FILTER OPTIONS — MÓDULO 2
+   ============================================================ */
+function m2FilteredExcept(exceptKey){
+  const f = state.f2;
+  return state.indicators.filter(ind => {
+    if (exceptKey!=="area" && f.area && ind.areaCode !== f.area) return false;
+    if (exceptKey!=="unidad" && f.unidad && ind.unidad !== f.unidad) return false;
+    if (exceptKey!=="lider" && f.lider && ind.lider !== f.lider) return false;
+    if (exceptKey!=="programa" && f.programa && ind.programa !== f.programa) return false;
+    if (exceptKey!=="indicador" && f.indicador && ind.indicador !== f.indicador) return false;
+    if (f.search){ const hay=(ind.programa+" "+ind.indicador+" "+ind.lider).toLowerCase(); if(!hay.includes(f.search)) return false; }
+    return true;
+  });
+}
+
+function refreshCascadingFiltersM2(){
+  const areaItems = uniqueSorted(m2FilteredExcept("area").map(i=>i.areaCode).filter(Boolean))
+    .map(code => { const sample = state.programs.find(p=>p.areaCode===code); return { value:code, label: sample?`${code} — ${areaLabel(sample.area)}`:code }; });
+  fillSelect("m2-area", areaItems, v=>{ state.f2.area=v; renderModule2(); }, state.f2.area);
+
+  fillSelect("m2-unidad", uniqueSorted(m2FilteredExcept("unidad").map(i=>i.unidad)).map(u=>({value:u,label:u})),
+    v=>{ state.f2.unidad=v; renderModule2(); }, state.f2.unidad);
+
+  fillSelect("m2-lider", uniqueSorted(m2FilteredExcept("lider").map(i=>i.lider).filter(Boolean)).map(l=>({value:l,label:l})),
+    v=>{ state.f2.lider=v; renderModule2(); }, state.f2.lider);
+
+  fillSelect("m2-programa", uniqueSorted(m2FilteredExcept("programa").map(i=>i.programa)).map(p=>({value:p,label:p})),
+    v=>{ state.f2.programa=v; renderModule2(); }, state.f2.programa);
+
+  fillSelect("m2-indicador", uniqueSorted(m2FilteredExcept("indicador").map(i=>i.indicador)).map(i=>({value:i,label:i.length>60?i.slice(0,60)+"…":i})),
+    v=>{ state.f2.indicador=v; renderModule2(); }, state.f2.indicador);
+
+  // Período: se mantiene con la lista completa de fechas de la bitácora (no se filtra en cascada),
+  // para que siempre puedas elegir cualquier fecha registrada.
+  const periodos = Object.values(state.periodByKey).sort((a,b)=>a.date-b.date);
+  fillSelect("m2-periodo", periodos.map(p=>({value:p.key, label:p.label})), v=>{ state.f2.periodo=v; renderModule2(); }, state.f2.periodo);
+}
+
+/* ============================================================
+   MODULE 1: FILTERING + RENDER
+   ============================================================ */
+function m1Filtered(){
+  const f = state.f1;
+  return state.programs.filter(p => {
+    if (f.area && p.areaCode !== f.area) return false;
+    if (f.estado && p.estado !== f.estado) return false;
+    if (f.fuente && p.fuente !== f.fuente) return false;
+    if (f.lider && p.lider !== f.lider) return false;
+    if (f.sem.size && !f.sem.has(String(p.semEmpalme))) return false;
+    if (f.search){
+      const hay = (p.programa+" "+p.convenio+" "+p.lider).toLowerCase();
+      if (!hay.includes(f.search)) return false;
+    }
+    return true;
+  });
+}
+
+function renderModule1(){
+  refreshCascadingFiltersM1();
+  const progs = m1Filtered();
+  document.getElementById("m1ResultCount").innerHTML = `<b>${progs.length}</b> de ${state.programs.length} programas únicos`;
+
+  const nuevos = progs.filter(p=>/nuevo/i.test(p.tipo)).length;
+  const alertaEmpalme = progs.filter(p=>p.semEmpalme===3).length;
+  const areasCubiertas = new Set(progs.map(p=>p.areaCode).filter(Boolean)).size;
+  const fuentesDistintas = new Set(progs.map(p=>p.fuente)).size;
+  const lideresInvolucrados = new Set(progs.map(p=>p.lider).filter(Boolean)).size;
+  const activos = progs.filter(p=>/activo/i.test(p.estado)).length;
+  const kpis = [
+    {l:"Programas únicos (filtro)", v:fmtNum(progs.length), s:`${activos} activos`},
+    {l:"Nuevos vs. empalme", v:fmtNum(nuevos), s:"Tipo = Nuevo"},
+    {l:"Crítico al empalme", v:fmtNum(alertaEmpalme), s:"Semáforo = 3", alert:alertaEmpalme>0},
+    {l:"Áreas cubiertas", v:fmtNum(areasCubiertas), s:"de 6 áreas funcionales"},
+    {l:"Fuentes de financiación", v:fmtNum(fuentesDistintas), s:"distintas en el filtro"},
+    {l:"Líderes involucrados", v:fmtNum(lideresInvolucrados), s:"responsables únicos"}
+  ];
+  document.getElementById("m1KpiRow").innerHTML = kpis.map(k=>`
+    <div class="card kpi-mini ${k.alert?"alert":""}"><div class="kl">${k.l}</div><div class="kv">${k.v}</div><div class="ks">${k.s}</div></div>
+  `).join("");
+
+  const counts = {}; AREA_ORDER.forEach(c=>counts[c]=0);
+  progs.forEach(p=>{ if (p.areaCode) counts[p.areaCode] = (counts[p.areaCode]||0)+1; });
+  const areaGrid = document.getElementById("m1AreaGrid");
+  areaGrid.innerHTML = AREA_ORDER.map(code=>{
+    const active = state.f1.area === code;
+    const sample = state.programs.find(p=>p.areaCode===code);
+    const label = sample ? `${code} — ${areaLabel(sample.area)}` : code;
+    return `<div class="area-card-big ${active?"active":""}" style="background:${AREA_COLORS[code]}" data-code="${code}">
+      <span class="nm">${label}</span><span class="cnt">${counts[code]}<span>programas</span></span></div>`;
+  }).join("");
+  areaGrid.querySelectorAll(".area-card-big").forEach(card=>{
+    card.addEventListener("click", ()=>{
+      state.f1.area = (state.f1.area === card.dataset.code) ? "" : card.dataset.code;
+      renderModule1();
+    });
+  });
+
+  const fCounts = {}; progs.forEach(p=>{ fCounts[p.fuente]=(fCounts[p.fuente]||0)+1; });
+  const fEntries = Object.entries(fCounts).sort((a,b)=>b[1]-a[1]);
+  const fMax = fEntries.length ? fEntries[0][1] : 1;
+  const financeBox = document.getElementById("m1FinanceList");
+  financeBox.innerHTML = fEntries.map(([name,val])=>{
+    const active = state.f1.fuente === name;
+    return `<div class="hbar-item ${active?"active":""}" data-fuente="${esc(name)}">
+      <span class="lbl">${esc(name)}</span><span class="hbar-val">${val}</span>
+      <div class="hbar-track"><div class="hbar-fill" style="width:${(val/fMax*100)}%"></div></div>
+    </div>`;
+  }).join("") || `<div class="empty-state">Sin datos</div>`;
+  financeBox.querySelectorAll(".hbar-item").forEach(row=>{
+    row.addEventListener("click", ()=>{
+      state.f1.fuente = (state.f1.fuente === row.dataset.fuente) ? "" : row.dataset.fuente;
+      renderModule1();
+    });
+  });
+
+  const lCounts = {}; progs.forEach(p=>{ if(p.lider) lCounts[p.lider]=(lCounts[p.lider]||0)+1; });
+  const lEntries = Object.entries(lCounts).sort((a,b)=>b[1]-a[1]);
+  const leaderBox = document.getElementById("m1LeaderList");
+  leaderBox.innerHTML = lEntries.map(([name,val])=>{
+    const active = state.f1.lider === name;
+    return `<div class="leader-row-sm ${active?"active":""}" data-lider="${esc(name)}">
+      <span class="ln">${esc(name)}</span><span class="lc">${val} prog.</span></div>`;
+  }).join("") || `<div class="empty-state">Sin datos</div>`;
+  leaderBox.querySelectorAll(".leader-row-sm").forEach(row=>{
+    row.addEventListener("click", ()=>{
+      state.f1.lider = state.f1.lider === row.dataset.lider ? "" : row.dataset.lider;
+      renderModule1();
+    });
+  });
+
+  const semCounts = {1:0,2:0,3:0,0:0};
+  progs.forEach(p=>{ semCounts[p.semEmpalme ?? 0]++; });
+  const semLabels = [1,2,3,0].map(k=>SEM_LABELS[k]);
+  const semData = [1,2,3,0].map(k=>semCounts[k]);
+  const semColorsArr = [1,2,3,0].map(k=>SEM_COLORS[k]);
+  const semOffset = [1,2,3,0].map(k=> state.f1.sem.has(String(k)) ? 14 : 0);
+  const ctx = document.getElementById("m1SemDonut");
+  if (state.charts.m1SemDonut) state.charts.m1SemDonut.destroy();
+  state.charts.m1SemDonut = new Chart(ctx, {
+    type:"doughnut",
+    data:{ labels:semLabels, datasets:[{ data:semData, backgroundColor:semColorsArr, borderWidth:2, borderColor:"#fff", offset:semOffset }] },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:"58%",
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:(c)=>`${c.label}: ${c.raw}` } } },
+      onClick:(evt, els)=>{
+        if (!els.length) return;
+        const idx = els[0].index; const val = [1,2,3,0][idx];
+        toggleM1Sem(String(val));
+      }
+    }
+  });
+  document.getElementById("m1SemLegend").innerHTML = [1,2,3].map(k=>{
+    const active = state.f1.sem.has(String(k));
+    return `<span class="li ${active?"selected":""} ${state.f1.sem.size && !active ? "dim":""}" data-sem="${k}"><span class="sw" style="background:${SEM_COLORS[k]}"></span>${SEM_LABELS[k]} (${semCounts[k]})</span>`;
+  }).join("");
+  document.querySelectorAll("#m1SemLegend .li").forEach(li=>{
+    li.addEventListener("click", ()=> toggleM1Sem(li.dataset.sem));
+  });
+
+  document.getElementById("m1TableBody").innerHTML = progs.map(p=>{
+    const color = AREA_COLORS[p.areaCode] || "#AEB9C4";
+    const sem = p.semEmpalme ?? 0;
+    const fin = p.fuente + (p.convenio ? ` · ${p.convenio}` : "");
+    const isSelected = state.f1.search && normKeyName(p.programa) === state.f1.search.trim();
+    return `<tr class="${isSelected?"row-selected":""}">
+      <td><span class="area-tag"><span class="sw" style="background:${color}"></span>${p.areaCode||"—"}</span></td>
+      <td><span class="p-name" data-desc-p="${esc(p.programa)}" data-filter-prog="${esc(p.programa)}" title="Pasa el mouse: más info · clic: filtrar por este programa">${esc(p.programa)}</span></td>
+      <td>${esc(p.lider)||"—"}</td>
+      <td>${esc(p.estado)}</td>
+      <td><span class="txt-trunc" title="${esc(p.estadoEmpalme)}">${esc(p.estadoEmpalme)||"—"}</span></td>
+      <td><span class="pill" title="${esc(fin)}">${esc(fin)}</span></td>
+      <td><span class="sem-dot sem-${sem}" title="${SEM_LABELS[sem]}"></span></td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="7"><div class="empty-state">Sin programas para los filtros seleccionados</div></td></tr>`;
+
+  document.querySelectorAll("[data-filter-prog]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const val = el.dataset.filterProg;
+      const isSame = state.f1.search === val.toLowerCase();
+      state.f1.search = isSame ? "" : val.toLowerCase();
+      renderModule1();
+    });
+  });
+
+  document.querySelectorAll("[data-desc-p]").forEach(el=>{
+    const prog = state.progByName[normKeyName(el.dataset.descP)];
+    if (!prog) return;
+    wireTooltip(el, () => `<b>Descripción breve</b>${esc(prog.descripcion || "Sin descripción registrada.")}
+      <div class="row"><b>Población objetivo</b>${esc(prog.poblacion || "No especificada")}</div>`);
+  });
+
+  const search = document.getElementById("m1-search");
+  if (document.activeElement !== search) search.value = state.f1.search ? state.f1.search : search.value;
+
+  renderActiveFiltersM1();
+}
+
+function toggleM1Sem(val){
+  const set = state.f1.sem;
+  if (set.has(val)) set.delete(val); else set.add(val);
+  renderModule1();
+}
+
+function m1ActiveFilterChips(){
+  const f = state.f1; const chips = [];
+  if (f.area) chips.push({label:`Área: ${f.area}`, clear:()=>{ f.area=""; }});
+  if (f.estado) chips.push({label:`Estado: ${f.estado}`, clear:()=>{ f.estado=""; }});
+  if (f.fuente) chips.push({label:`Fuente: ${f.fuente}`, clear:()=>{ f.fuente=""; }});
+  if (f.lider) chips.push({label:`Líder: ${f.lider}`, clear:()=>{ f.lider=""; }});
+  if (f.search) chips.push({label:`Programa: ${f.search}`, clear:()=>{ document.getElementById("m1-search").value=""; f.search=""; }});
+  [...f.sem].forEach(v=>chips.push({label:`Semáforo: ${SEM_LABELS[v]}`, clear:()=>{ f.sem.delete(v); }}));
+  return chips;
+}
+
+function renderActiveFiltersM1(){
+  const chips = m1ActiveFilterChips();
+  const bar = document.getElementById("m1ActiveFilters");
+  if (!chips.length){ bar.classList.add("empty"); bar.innerHTML=""; return; }
+  bar.classList.remove("empty");
+  bar.innerHTML = `<span class="af-label">Filtrando por:</span>` +
+    chips.map((c,i)=>`<span class="af-chip" data-idx="${i}"><span class="af-txt">${esc(c.label)}</span><button type="button" aria-label="Quitar filtro">×</button></span>`).join("") +
+    `<button class="btn small af-clearall" id="m1ClearAllInline">Limpiar todo</button>`;
+  bar.querySelectorAll(".af-chip button").forEach((btn,i)=>{
+    btn.addEventListener("click", ()=>{ chips[i].clear(); renderModule1(); });
+  });
+  document.getElementById("m1ClearAllInline").addEventListener("click", ()=> document.getElementById("m1-clear").click());
+}
+
+/* ============================================================
+   MODULE 2: FILTERING + RENDER
+   ============================================================ */
+function m2FilteredIndicators(){
+  const f = state.f2;
+  return state.indicators.filter(ind => {
+    if (f.area && ind.areaCode !== f.area) return false;
+    if (f.unidad && ind.unidad !== f.unidad) return false;
+    if (f.lider && ind.lider !== f.lider) return false;
+    if (f.programa && ind.programa !== f.programa) return false;
+    if (f.indicador && ind.indicador !== f.indicador) return false;
+    if (f.search){
+      const hay = (ind.programa+" "+ind.indicador+" "+ind.lider).toLowerCase();
+      if (!hay.includes(f.search)) return false;
+    }
+    return true;
+  });
+}
+
+function logsFor(programa, indicador){
+  const kp = normKeyName(programa), ki = normKeyName(indicador);
+  return state.logs.filter(l => normKeyName(l.programa)===kp && normKeyName(l.indicador)===ki);
+}
+
+function computeIndicatorSnapshot(ind, atPeriodoKey){
+  const logsKey = logsFor(ind.programa, ind.indicador).slice().sort((a,b)=>a.periodo.date-b.periodo.date);
+  const later = logsKey.filter(l=>!l.periodo.isEmpalme);
+  let snapLog;
+  if (atPeriodoKey){
+    snapLog = logsKey.find(l => l.periodo.key === atPeriodoKey) || null;
+  } else {
+    snapLog = later.length ? later[later.length-1] : (logsKey[0] || null);
+  }
+  const sem = snapLog ? snapLog.semaforo : null;
+  const alerta = snapLog ? snapLog.alerta : null;
+  const nums = later.map(l=>l.valorNum).filter(n=>n!==null && !isNaN(n));
+  const total = nums.length ? nums.reduce((a,b)=>a+b,0) : null;
+  const lastAny = logsKey.length ? logsKey[logsKey.length-1] : null;
+  const hasPostEmpalmeData = later.some(l => l.valorNum !== null);
+  return { logsKey, later, snapLog, sem, alerta, total, lastAny, hasPostEmpalmeData };
+}
+
+function m2SemPasses(snap){
+  const f = state.f2;
+  if (!f.sem) return true;
+  if (f.sem === "alerta") return snap.alerta === "Sí";
+  return snap.sem === Number(f.sem);
+}
+
+function renderModule2(){
+  refreshCascadingFiltersM2();
+  const indBase = m2FilteredIndicators();
+  const atPeriodoKey = state.f2.periodo || null;
+
+  // Al elegir una fecha de registro (desde el desplegable o clic en la gráfica de barras),
+  // el listado debe reducirse a los indicadores que efectivamente tienen un registro en esa fecha.
+  const rows = indBase.map(ind => ({ ind, snap: computeIndicatorSnapshot(ind, atPeriodoKey) }))
+    .filter(r => m2SemPasses(r.snap))
+    .filter(r => !atPeriodoKey || r.snap.snapLog !== null);
+
+  document.getElementById("m2ResultCount").innerHTML = `<b>${rows.length}</b> de ${state.indicators.length} indicadores`;
+  document.getElementById("m2TableCount").textContent = `${rows.length} indicadores`;
+
+  const relevantLogs = state.logs.filter(l => indBase.some(i=>normKeyName(i.programa)===normKeyName(l.programa) && normKeyName(i.indicador)===normKeyName(l.indicador)));
+
+  let sumMeta=0, sumAvance=0, withMeta=0;
+  rows.forEach(r=>{
+    if (/hito/i.test(r.ind.unidad)) return;
+    if (r.ind.metaAnualNum !== null && r.snap.total !== null){
+      sumMeta += r.ind.metaAnualNum; sumAvance += Math.min(r.snap.total, r.ind.metaAnualNum*1.5); withMeta++;
+    }
+  });
+  const pctGlobal = sumMeta>0 ? Math.round(sumAvance/sumMeta*100) : null;
+  const totalProgramas = new Set(indBase.map(r=>r.programa)).size;
+  const totalRegistros = relevantLogs.filter(l=>!l.periodo.isEmpalme).length;
+  const conAlertaActual = rows.filter(r=>r.snap.alerta==="Sí").length;
+  const sinDatos = rows.filter(r=>!r.snap.snapLog).length;
+
+  const kpis2 = [
+    {l:"Indicadores (filtro)", v:fmtNum(rows.length), s:`${totalProgramas} programas`},
+    {l:"Registros de bitácora", v:fmtNum(totalRegistros), s:"Excluye línea base"},
+    {l:"Cumplimiento global", v:pctGlobal!==null?pctGlobal+"%":"—", s:`${withMeta} con meta anual`},
+    {l:"Alertas en el corte", v:fmtNum(conAlertaActual), s: atPeriodoKey?("Período "+periodLabelByKey(atPeriodoKey)):"Estado más reciente", alert:conAlertaActual>0},
+    {l:"Sin registros en el corte", v:fmtNum(sinDatos), s:"indicadores sin datos"},
+    {l:"Unidades de medida", v:new Set(rows.map(r=>r.ind.unidad)).size, s:"tipos distintos en el filtro"}
+  ];
+  document.getElementById("m2KpiRow").innerHTML = kpis2.map(k=>`
+    <div class="card kpi-mini ${k.alert?"alert":""}"><div class="kl">${k.l}</div><div class="kv">${k.v}</div><div class="ks">${k.s}</div></div>
+  `).join("");
+
+  const semCounts = {1:0,2:0,3:0,0:0};
+  rows.forEach(r=>{ semCounts[r.snap.sem ?? 0]++; });
+  document.getElementById("m2SemTitle").textContent = atPeriodoKey ? `Semáforo — corte ${periodLabelByKey(atPeriodoKey)}` : "Semáforo — estado actual";
+  drawM2Donut(semCounts);
+
+  renderTimelineOrTrend(rows, relevantLogs);
+  renderPivot(rows);
+  renderGapPanels();
+  renderAlertsM2(indBase, atPeriodoKey);
+  renderActiveFiltersM2();
+}
+
+function drawM2Donut(semCounts){
+  const labels = [1,2,3,0].map(k=>SEM_LABELS[k]);
+  const data = [1,2,3,0].map(k=>semCounts[k]);
+  const colors = [1,2,3,0].map(k=>SEM_COLORS[k]);
+  const offsets = [1,2,3,0].map(k=> state.f2.sem === String(k) ? 14 : 0);
+  const ctx = document.getElementById("m2SemDonut");
+  if (state.charts.m2SemDonut) state.charts.m2SemDonut.destroy();
+  state.charts.m2SemDonut = new Chart(ctx, {
+    type:"doughnut",
+    data:{ labels, datasets:[{ data, backgroundColor:colors, borderWidth:2, borderColor:"#fff", offset:offsets }] },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:"58%",
+      plugins:{
+        legend:{ position:"bottom", labels:{ boxWidth:8, font:{size:10} } },
+        tooltip:{ callbacks:{ label:(c)=>`${c.label}: ${c.raw}` } }
+      },
+      onClick:(evt, els)=>{
+        if (!els.length) return;
+        const idx = els[0].index; const val = [1,2,3,0][idx];
+        state.f2.sem = (state.f2.sem === String(val)) ? "" : String(val);
+        renderModule2();
+      }
+    }
+  });
+}
+
+/* ============================================================
+   TIMELINE / TENDENCIA
+   ============================================================ */
+function wrapLines(text, width){
+  if (!text) return [];
+  const words = String(text).split(/\s+/);
+  const lines = []; let cur = "";
+  words.forEach(w=>{
+    if ((cur + " " + w).trim().length > width){ if (cur) lines.push(cur); cur = w; }
+    else cur = (cur + " " + w).trim();
+  });
+  if (cur) lines.push(cur);
+  return lines.slice(0, 5);
+}
+
+function showChartEmptyMsg(msg){
+  const holder = document.getElementById("m2TimelineHolder");
+  let el = holder.querySelector(".chart-empty-msg");
+  if (!el){
+    el = document.createElement("div");
+    el.className = "chart-empty-msg empty-state";
+    el.style.position = "absolute"; el.style.inset = "0";
+    el.style.display = "flex"; el.style.alignItems = "center"; el.style.justifyContent = "center";
+    holder.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.display = "flex";
+}
+function hideChartEmptyMsg(){
+  const holder = document.getElementById("m2TimelineHolder");
+  const el = holder.querySelector(".chart-empty-msg");
+  if (el) el.style.display = "none";
+}
+
+function renderTimelineOrTrend(rows, relevantLogs){
+  const title = document.getElementById("m2TimelineTitle");
+  const singleFocus = !!state.f2.indicador && rows.length === 1;
+
+  if (singleFocus){
+    title.innerHTML = `Valor reportado en el tiempo — <span style="font-weight:600;">${esc(rows[0].ind.indicador)}</span>`;
+    renderIndicatorTrend(rows[0]);
+  } else {
+    title.innerHTML = `Registros de bitácora por período <span class="hint" style="font-weight:400;">(clic filtra · elige un indicador para ver su tendencia)</span>`;
+    renderTimeline(relevantLogs);
+  }
+}
+
+function renderIndicatorTrend(row){
+  try{
+    const ind = row.ind;
+    const logsSorted = row.snap.logsKey;
+    const ctx = document.getElementById("m2Timeline");
+    if (state.charts.timeline) { state.charts.timeline.destroy(); state.charts.timeline = null; }
+    if (!logsSorted.length){
+      ctx.getContext("2d").clearRect(0,0,ctx.width,ctx.height);
+      showChartEmptyMsg("Este indicador aún no tiene registros en la bitácora.");
+      return;
+    }
+    hideChartEmptyMsg();
+    state.charts.timeline = new Chart(ctx, {
+      type:"line",
+      data:{
+        labels: logsSorted.map(l=>l.periodo.label),
+        datasets:[{
+          label: ind.indicador,
+          data: logsSorted.map(l=>l.valorNum),
+          borderColor:"#1A4B72", backgroundColor:"rgba(79,190,178,.18)",
+          fill:true, tension:.25, borderWidth:2.5, pointRadius:4, pointHoverRadius:6,
+          pointBackgroundColor:"#1A4B72", spanGaps:true
+        }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              label:(c)=> "Valor: " + formatValueForUnit(c.raw, ind.unidad),
+              afterLabel:(c)=>{
+                const log = logsSorted[c.dataIndex];
+                return log && log.comentarios ? wrapLines(log.comentarios, 38) : [];
+              }
+            }
+          }
+        },
+        scales:{
+          y:{ beginAtZero:true, grid:{color:"#EEF2F6"}, ticks:{font:{size:10}} },
+          x:{ grid:{display:false}, ticks:{font:{size:10}} }
+        }
+      }
+    });
+  }catch(err){
+    console.error("renderIndicatorTrend error:", err);
+    showChartEmptyMsg("No se pudo dibujar la tendencia de este indicador.");
+  }
+}
+
+function renderTimeline(logs){
+  try{
+    const byPeriod = {};
+    logs.forEach(l=>{
+      if (l.periodo.isEmpalme) return;
+      const key = l.periodo.key;
+      byPeriod[key] = byPeriod[key] || { key, date:l.periodo.date, label:l.periodo.label, count:0 };
+      byPeriod[key].count++;
+    });
+    const entries = Object.values(byPeriod).sort((a,b)=>a.date-b.date);
+    const ctx = document.getElementById("m2Timeline");
+    if (state.charts.timeline) { state.charts.timeline.destroy(); state.charts.timeline = null; }
+
+    if (!entries.length){
+      ctx.getContext("2d").clearRect(0,0,ctx.width,ctx.height);
+      showChartEmptyMsg("No hay registros de bitácora para los filtros actuales.");
+      return;
+    }
+    hideChartEmptyMsg();
+
+    state.charts.timeline = new Chart(ctx, {
+      type:"bar",
+      data:{ labels:entries.map(e=>e.label), datasets:[{ label:"Registros", data:entries.map(e=>e.count),
+        backgroundColor: entries.map(e => state.f2.periodo===e.key ? "#F0A430" : "#1A4B72"),
+        borderRadius:4, maxBarThickness:34 }] },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false} },
+        scales:{ y:{ beginAtZero:true, grid:{color:"#EEF2F6"}, ticks:{font:{size:10}, precision:0} }, x:{ grid:{display:false}, ticks:{font:{size:10}} } },
+        onClick:(evt, els)=>{
+          if (!els.length) return;
+          const idx = els[0].index; const per = entries[idx];
+          state.f2.periodo = (state.f2.periodo===per.key) ? "" : per.key;
+          renderModule2();
+        }
+      }
+    });
+  }catch(err){
+    console.error("renderTimeline error:", err);
+    showChartEmptyMsg("No se pudo dibujar la gráfica de registros.");
+  }
+}
+
+/* ============================================================
+   PIVOT TABLE
+   ============================================================ */
+function renderPivot(rows){
+  const periodos = Object.values(state.periodByKey).sort((a,b)=>a.date-b.date);
+  const headRow = document.getElementById("pivotHeadRow");
+  headRow.innerHTML = `<th>Área</th><th>Programa / Líder</th><th>Indicador</th><th>Unidad</th><th>Meta anual</th>` +
+    periodos.map(p=>`<th>${esc(p.label)}</th>`).join("") + `<th>Total acumulado</th><th>Semáforo</th>`;
+
+  const body = document.getElementById("pivotBody");
+  body.innerHTML = rows.map(r => {
+    const ind = r.ind; const snap = r.snap;
+    const color = AREA_COLORS[ind.areaCode] || "#AEB9C4";
+    const isHito = /hito/i.test(ind.unidad);
+    const cellsHtml = periodos.map(p => {
+      const log = snap.logsKey.find(l=>l.periodo.key===p.key);
+      if (!log) return `<td class="cell-empty">–</td>`;
+      if (isHito) return `<td class="cell-hito" data-tip="1" data-period-key="${esc(p.key)}">📝</td>`;
+      const val = formatValueForUnit(log.valorNum, ind.unidad);
+      return `<td class="cell-num" data-tip="1" data-period-key="${esc(p.key)}">${val}</td>`;
+    }).join("");
+
+    // Total acumulado: para Hito no aplica (no es una medida numérica acumulable)
+    const totalCellHtml = isHito
+      ? `<td class="total-cell">—</td>`
+      : `<td class="total-cell">${formatValueForUnit(snap.total, ind.unidad)}</td>`;
+
+    const sem = snap.sem ?? 0;
+    const progSelected = state.f2.programa && normKeyName(ind.programa)===normKeyName(state.f2.programa);
+    const indSelected = state.f2.indicador && normKeyName(ind.indicador)===normKeyName(state.f2.indicador);
+    return `<tr class="${(progSelected||indSelected)?"row-selected":""}">
+      <td><span class="area-tag"><span class="sw" style="background:${color}"></span>${ind.areaCode||"—"}</span></td>
+      <td><div class="click-filter ${progSelected?"selected":""}" data-filter-programa="${esc(ind.programa)}" style="font-weight:600;color:var(--ink);cursor:pointer;" title="Clic para filtrar por este programa">${esc(ind.programa)}</div><div class="hint">${esc(ind.lider)}</div></td>
+      <td><span class="click-filter ${indSelected?"selected":""}" data-filter-indicador="${esc(ind.indicador)}" style="cursor:pointer;border-bottom:1px dotted var(--ink-soft);" title="Clic para filtrar por este indicador">${esc(ind.indicador)}</span></td>
+      <td>${esc(ind.unidad)}</td>
+      <td class="mono-num">${formatValueForUnit(ind.metaAnualNum, ind.unidad)}</td>
+      ${cellsHtml}
+      ${totalCellHtml}
+      <td><span class="sem-dot sem-${sem}" title="${SEM_LABELS[sem]}"></span></td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="${5+periodos.length+2}"><div class="empty-state">Sin indicadores para los filtros seleccionados</div></td></tr>`;
+
+  body.querySelectorAll("[data-filter-programa]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const val = el.dataset.filterPrograma;
+      state.f2.programa = (state.f2.programa === val) ? "" : val;
+      renderModule2();
+    });
+  });
+  body.querySelectorAll("[data-filter-indicador]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const val = el.dataset.filterIndicador;
+      state.f2.indicador = (state.f2.indicador === val) ? "" : val;
+      renderModule2();
+    });
+  });
+
+  // Tooltip por celda: se busca por llave de período (no por posición), así nunca queda desalineado
+  body.querySelectorAll("tr").forEach((tr, i) => {
+    const r = rows[i]; if (!r) return;
+    tr.querySelectorAll("td[data-tip]").forEach(td => {
+      const pKey = td.dataset.periodKey;
+      const log = r.snap.logsKey.find(l=>l.periodo.key===pKey);
+      if (!log) return;
+      const p = state.periodByKey[pKey];
+      wireTooltip(td, () => `<b>${esc(p?p.label:pKey)}</b>${esc(log.comentarios || "Sin comentarios registrados.")}`);
+    });
+  });
+}
+
+/* ============================================================
+   GAP PANELS
+   ============================================================ */
+function renderGapPanels(){
+  const indProgKeys = new Set(state.indicators.map(i=>normKeyName(i.programa)));
+  const noIndicators = state.programs.filter(p => !indProgKeys.has(normKeyName(p.programa)));
+  document.getElementById("gapNoIndicators").innerHTML = noIndicators.length ? noIndicators.map(p=>`
+    <div class="gap-row"><span class="area-tag"><span class="sw" style="background:${AREA_COLORS[p.areaCode]||'#AEB9C4'}"></span>${p.areaCode||"—"}</span>
+    <span class="gn" title="${esc(p.programa)}">${esc(p.programa)}</span><span class="gs" title="${esc(p.lider)}">${esc(p.lider)||"Sin líder"}</span></div>
+  `).join("") : `<div class="empty-state">Todos los programas tienen al menos un indicador asignado.</div>`;
+
+  const noReports = state.indicators.filter(ind => !computeIndicatorSnapshot(ind, null).hasPostEmpalmeData);
+  document.getElementById("gapNoReports").innerHTML = noReports.length ? noReports.map(ind=>`
+    <div class="gap-row"><span class="area-tag"><span class="sw" style="background:${AREA_COLORS[ind.areaCode]||'#AEB9C4'}"></span>${ind.areaCode||"—"}</span>
+    <span class="gn" title="${esc(ind.programa)}">${esc(ind.programa)}</span><span class="gs" title="${esc(ind.indicador)}">${esc(ind.indicador)}</span></div>
+  `).join("") : `<div class="empty-state">Todos los indicadores tienen al menos un valor reportado tras el empalme.</div>`;
+}
+
+/* ============================================================
+   ALERTAS
+   ============================================================ */
+function renderAlertsM2(indBase, atPeriodoKey){
+  const title = document.getElementById("alertsTitle");
+  const relevant = state.logs.filter(l => indBase.some(i=>normKeyName(i.programa)===normKeyName(l.programa) && normKeyName(i.indicador)===normKeyName(l.indicador)));
+
+  let activeLogs;
+  if (atPeriodoKey){
+    title.textContent = `Alertas activas — corte ${periodLabelByKey(atPeriodoKey)}`;
+    activeLogs = relevant.filter(l => l.periodo.key === atPeriodoKey && l.alerta === "Sí");
+  } else {
+    const periodsSorted = [...new Map(relevant.filter(l=>!l.periodo.isEmpalme).map(l=>[l.periodo.key,l.periodo])).values()]
+      .sort((a,b)=>b.date-a.date);
+    const lastTwoKeys = new Set(periodsSorted.slice(0,2).map(p=>p.key));
+    title.textContent = "Alertas activas — últimos 2 períodos con registros";
+    activeLogs = relevant.filter(l => lastTwoKeys.has(l.periodo.key) && l.alerta === "Sí");
+  }
+  activeLogs = activeLogs.slice().sort((a,b)=>b.periodo.date-a.periodo.date);
+
+  document.getElementById("alertsPanel").innerHTML = activeLogs.length ? activeLogs.map(l=>`
+    <div class="alert-card">
+      <div class="alert-top"><b>${esc(l.programa)}</b><span>${esc(l.periodo.label)}</span></div>
+      <div class="alert-text">${esc(l.indicador)} — ${esc(l.descAlerta || "Sin descripción registrada.")}</div>
+      <div class="alert-action">Líder responsable: ${esc(l.lider)||"—"}${l.accion ? " · Acción requerida: "+esc(l.accion) : ""}</div>
+    </div>
+  `).join("") : `<div class="empty-state">No hay alertas activas para los filtros y período seleccionados.</div>`;
+}
+
+function m2ActiveFilterChips(){
+  const f = state.f2; const chips = [];
+  if (f.area) chips.push({label:`Área: ${f.area}`, clear:()=>{ f.area=""; }});
+  if (f.unidad) chips.push({label:`Unidad: ${f.unidad}`, clear:()=>{ f.unidad=""; }});
+  if (f.sem) chips.push({label:`Semáforo: ${f.sem==="alerta"?"Con alerta activa":SEM_LABELS[Number(f.sem)]}`, clear:()=>{ document.getElementById("m2-sem").value=""; f.sem=""; }});
+  if (f.lider) chips.push({label:`Líder: ${f.lider}`, clear:()=>{ f.lider=""; }});
+  if (f.programa) chips.push({label:`Programa: ${f.programa}`, clear:()=>{ f.programa=""; }});
+  if (f.indicador) chips.push({label:`Indicador: ${f.indicador}`, clear:()=>{ f.indicador=""; }});
+  if (f.periodo) chips.push({label:`Período: ${periodLabelByKey(f.periodo)}`, clear:()=>{ f.periodo=""; }});
+  if (f.search) chips.push({label:`Buscar: ${f.search}`, clear:()=>{ document.getElementById("m2-search").value=""; f.search=""; }});
+  return chips;
+}
+
+function renderActiveFiltersM2(){
+  const chips = m2ActiveFilterChips();
+  const bar = document.getElementById("m2ActiveFilters");
+  if (!chips.length){ bar.classList.add("empty"); bar.innerHTML=""; return; }
+  bar.classList.remove("empty");
+  bar.innerHTML = `<span class="af-label">Filtrando por:</span>` +
+    chips.map((c,i)=>`<span class="af-chip" data-idx="${i}"><span class="af-txt">${esc(c.label)}</span><button type="button" aria-label="Quitar filtro">×</button></span>`).join("") +
+    `<button class="btn small af-clearall" id="m2ClearAllInline">Limpiar todo</button>`;
+  bar.querySelectorAll(".af-chip button").forEach((btn,i)=>{
+    btn.addEventListener("click", ()=>{ chips[i].clear(); renderModule2(); });
+  });
+  document.getElementById("m2ClearAllInline").addEventListener("click", ()=> document.getElementById("m2-clear").click());
+}
+
+/* ============================================================
+   RENDER ALL
+   ============================================================ */
+function renderAll(){
+  try{ renderModule1(); }catch(err){ console.error("Error en Módulo 1:", err); }
+  try{ renderModule2(); }catch(err){ console.error("Error en Módulo 2:", err); }
+  document.getElementById("app").setAttribute("aria-busy","false");
+}
+
+/* ============================================================
+   DATA SOURCE PANEL
+   ============================================================ */
+function setupSourcePanel(){
+  const panel = document.getElementById("sourcePanel");
+  const input = document.getElementById("sourceInput");
+  const errorEl = document.getElementById("sourceError");
+  document.getElementById("btnToggleSource").addEventListener("click", ()=>{
+    panel.classList.toggle("open"); if (panel.classList.contains("open")) input.focus();
+  });
+  input.value = getApiUrl();
+  document.getElementById("btnSaveSource").addEventListener("click", ()=>{
+    const url = input.value.trim();
+    if (!isValidAppsScriptUrl(url)){ errorEl.style.display="block"; return; }
+    errorEl.style.display="none"; setApiUrl(url); panel.classList.remove("open"); fetchData();
+  });
+  document.getElementById("btnResetSource").addEventListener("click", ()=>{
+    clearApiUrl(); input.value = DEFAULT_APPS_SCRIPT_URL; errorEl.style.display="none"; panel.classList.remove("open"); fetchData();
+  });
+  input.addEventListener("keydown", (e)=>{ if (e.key==="Enter") document.getElementById("btnSaveSource").click(); });
+}
+
+/* ============================================================
+   AUTO-REFRESH
+   ============================================================ */
+function setupAutoRefresh(){
+  const sel = document.getElementById("refreshSelect");
+  function apply(){
+    if (state.refreshTimer) clearInterval(state.refreshTimer);
+    const ms = parseInt(sel.value, 10);
+    if (ms>0) state.refreshTimer = setInterval(fetchData, ms);
+  }
+  sel.addEventListener("change", apply);
+  apply();
+}
+document.getElementById("btnRefreshNow").addEventListener("click", fetchData);
+
+/* ============================================================
+   CHART.JS LOAD GUARD
+   ============================================================ */
+function ensureChartLoaded(callback){
+  if (typeof Chart !== "undefined"){ callback(); return; }
+  setConn("loading", "Cargando librería de gráficas…");
+  const fb = document.createElement("script");
+  fb.src = "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js";
+  fb.onload = () => callback();
+  fb.onerror = () => setConn("err", "No se pudo cargar Chart.js. Revisa tu conexión o bloqueadores de contenido.");
+  document.head.appendChild(fb);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+ensureChartLoaded(() => {
+  setupSourcePanel();
+  fetchData();
+  setupAutoRefresh();
+});
+</script>
+</body>
+</html>
